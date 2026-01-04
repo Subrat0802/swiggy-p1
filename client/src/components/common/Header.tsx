@@ -15,8 +15,8 @@ const Header = () => {
                     <li>Contact</li>
                     <li>Items</li>
                 </ul>
-                <button className="p-2 border">Signup</button>
-                <button className="p-2 border">Signin</button>
+                <button className="p-2 border rounded-lg">Signup</button>
+                <button className="p-2 border rounded-lg">Signin</button>
             </div>
         </div>
     </div>
