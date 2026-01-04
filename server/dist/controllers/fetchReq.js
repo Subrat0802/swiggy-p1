@@ -14,7 +14,7 @@ export const fetchRestaurant = async (req, res) => {
             });
         }
         res.status(200).json({
-            data: data,
+            data: data.data.cards,
             message: "All restaurants",
             success: false
         });

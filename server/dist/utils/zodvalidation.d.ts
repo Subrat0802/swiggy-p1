@@ -5,4 +5,8 @@ export declare const signUpvalidation: z.ZodObject<{
     email: z.ZodString;
     password: z.ZodString;
 }, z.core.$strip>;
+export declare const signInvalidation: z.ZodObject<{
+    email: z.ZodString;
+    password: z.ZodString;
+}, z.core.$strip>;
 //# sourceMappingURL=zodvalidation.d.ts.map
