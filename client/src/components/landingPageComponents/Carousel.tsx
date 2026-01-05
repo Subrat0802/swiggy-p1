@@ -2,6 +2,7 @@ import { useRef } from "react";
 import type { RootState } from "../../main";
 import { useSelector } from "react-redux";
 import CarouselSkel from "../loadingSkeleton/CarouselSkel";
+import {IMAGE_CDN} from "../../utils";
 
 const Carousel = () => {
 
@@ -19,7 +20,7 @@ const Carousel = () => {
   }
 
   const itemsImages = useSelector(
-    (state: RootState) => state.itemImagesState.itemsImage
+    (state: RootState) => state.restaurantsDetails.itemsImage
   );
   return (
     <div className="pt-14 md:pt-23 border-b-2 border-gray-200 pb-18">
@@ -42,7 +43,7 @@ const Carousel = () => {
               className="min-w-25 md:min-w-37.5 overflow-hidden"
             >
               <img
-                src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/${el.imageId}`}
+                src={`${IMAGE_CDN + el.imageId}`}
                 className="w-full h-full object-cover mt-3"
               />
             </div>

@@ -2,7 +2,7 @@ import { combineReducers } from "@reduxjs/toolkit";
 import itemImagesSlice from "./slices/restaurants";
 
 const rootReducer = combineReducers({
-    itemImagesState: itemImagesSlice
+    restaurantsDetails: itemImagesSlice
 })
 
 export default rootReducer;

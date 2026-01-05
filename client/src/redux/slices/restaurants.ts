@@ -1,16 +1,28 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
+interface RestaurantsInfo {
+    id: string,
+    name: string,
+    cloudinaryImageId: string,
+    areaName: string
+    cuisines: [string]
+    costForTwo: string
+    avgRating: string
+}
+
+
+//------
+
 interface Images {
   id: string;
   imageId: string;
 }
 
 interface TopRestaurants {
-    id: string
-    imageId: string
-    name: string
+    info: RestaurantsInfo
 }
 
+//----
 interface ItemsImageState {
   itemsImage: Images[] | null;
   topRestaurants: TopRestaurants[] | null;

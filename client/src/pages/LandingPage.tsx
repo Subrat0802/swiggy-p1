@@ -3,6 +3,7 @@ import { restaurantsData } from "../services/operations.ts/reastaurantApi";
 import { useDispatch } from "react-redux";
 import { setItemsImage, setTopRestaurants } from "../redux/slices/restaurants";
 import Carousel from "../components/landingPageComponents/Carousel";
+import TopRestaurants from "../components/landingPageComponents/TopRestaurants";
 
 const LandingPage = () => {
     const dispatch = useDispatch();
@@ -20,6 +21,7 @@ const LandingPage = () => {
     <div className="min-h-screen ">
         <div className="max-w-7xl mx-auto h-screen">
           <Carousel />
+          <TopRestaurants />
         </div>
     </div>
   )
