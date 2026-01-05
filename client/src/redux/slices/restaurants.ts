@@ -22,15 +22,21 @@ interface TopRestaurants {
     info: RestaurantsInfo
 }
 
+interface TopRestaurants {
+    info: RestaurantsInfo
+}
+
 //----
 interface ItemsImageState {
   itemsImage: Images[] | null;
   topRestaurants: TopRestaurants[] | null;
+  allRestaurants: TopRestaurants[] | null;
 }
 
 const initialState: ItemsImageState = {
   itemsImage: null,
-  topRestaurants: null
+  topRestaurants: null,
+  allRestaurants: null
 };
 
 const itemsImageSlice = createSlice({
@@ -43,8 +49,11 @@ const itemsImageSlice = createSlice({
     setTopRestaurants(state, action: PayloadAction<TopRestaurants[]>) {
       state.topRestaurants = action.payload;
     },
+    setAllRestaurants(state, action: PayloadAction<TopRestaurants[]>) {
+      state.allRestaurants = action.payload;
+    },
   },
 });
 
-export const { setItemsImage, setTopRestaurants } = itemsImageSlice.actions;
+export const { setItemsImage, setTopRestaurants, setAllRestaurants } = itemsImageSlice.actions;
 export default itemsImageSlice.reducer;

@@ -2,22 +2,22 @@ import { useRef } from "react";
 import type { RootState } from "../../main";
 import { useSelector } from "react-redux";
 import CarouselSkel from "../loadingSkeleton/CarouselSkel";
-import {IMAGE_CDN} from "../../utils";
+import { IMAGE_CDN } from "../../utils";
+import { CircleChevronRight, CircleChevronLeft } from "lucide-react";
 
 const Carousel = () => {
-
   const carouselRef = useRef<HTMLDivElement | null>(null);
 
   const scrollLeft = () => {
-    if(carouselRef.current){
+    if (carouselRef.current) {
       carouselRef.current.scrollLeft -= 500;
     }
-  }
+  };
   const scrollRight = () => {
-    if(carouselRef.current){
+    if (carouselRef.current) {
       carouselRef.current.scrollLeft += 500;
     }
-  }
+  };
 
   const itemsImages = useSelector(
     (state: RootState) => state.restaurantsDetails.itemsImage
@@ -25,23 +25,27 @@ const Carousel = () => {
   return (
     <div className="pt-14 md:pt-23 border-b-2 border-gray-200 pb-18">
       <div className=" flex justify-between items-center">
-        <p className="text-2xl font-bold">Whats on Your mind?</p>
-        <div className="flex gap-4">
-          <p onClick={scrollLeft}>left</p>
-          <p onClick={scrollRight}>Right</p>
+        <p className="text-2xl font-bold text-black/80">Whats on Your mind?</p>
+        <div className="flex gap-4 text-black/50">
+          <span className="cursor-pointer" onClick={scrollLeft}>
+            <CircleChevronLeft />
+          </span>
+          <span className="cursor-pointer" onClick={scrollRight}>
+            <CircleChevronRight />
+          </span>
         </div>
       </div>
-      <div ref={carouselRef} className="flex gap-4 overflow-x-auto no-scrollbar scroll-smooth max-w-full ">
+      <div
+        ref={carouselRef}
+        className="flex gap-4 overflow-x-auto no-scrollbar scroll-smooth max-w-full "
+      >
         {itemsImages == null ? (
           <div className="mt-8">
             <CarouselSkel />
           </div>
         ) : (
           itemsImages.map((el) => (
-            <div
-              key={el.id}
-              className="min-w-25 md:min-w-37.5 overflow-hidden"
-            >
+            <div key={el.id} className="min-w-25 md:min-w-37.5 overflow-hidden">
               <img
                 src={`${IMAGE_CDN + el.imageId}`}
                 className="w-full h-full object-cover mt-3"
