@@ -6,7 +6,7 @@ import Carousel from "../components/landingPageComponents/Carousel";
 import TopRestaurants from "../components/landingPageComponents/TopRestaurants";
 import AllRestaurants from "../components/landingPageComponents/AllRestaurants";
 import type { RootState } from "../main";
-import { setLeftOpen } from "../redux/slices/uiStates";
+import { setLeftOpen, setRightOpen } from "../redux/slices/uiStates";
 
 const LandingPage = () => {
     const dispatch = useDispatch();
@@ -26,13 +26,23 @@ const LandingPage = () => {
     const handleClickLeftSidebar = () => {
       dispatch(setLeftOpen(false))
     }
+
+    const handleClickRightSidebar = () => {
+      dispatch(setRightOpen(false))
+    }
     
   return (
     <div className="min-h-screen relative">
-      <div className={`fixed left-0 top-0 h-screen w-[25%] bg-gray-100 transform transition-transform duration-300 ease-in-out ${uiStates.leftOpen ? 
+      <div className={`fixed left-0 top-0 h-screen w-[70%] md:w-[25%] bg-gray-100 transform transition-transform duration-300 ease-in-out ${uiStates.leftOpen ? 
         "translate-x-0" : "-translate-x-full"
       }`}>
-        <button onClick={handleClickLeftSidebar} className="pt-24 ">Close</button>
+        <button onClick={handleClickLeftSidebar} className="pt-24 cursor-pointer">Close</button>
+      </div>
+
+      <div className={`fixed right-0 top-0 w-[25%] h-screen bg-gray-100 transform transition-transform duration-400 ease-in-out ${uiStates.rightOpen ? 
+        "translate-x-0" : "translate-x-full"
+      }`}>
+        <button onClick={handleClickRightSidebar}  className="pt-20 cursor-pointer">Close</button>
       </div>
 
         <div className="max-w-7xl mx-auto h-screen">

@@ -23,9 +23,9 @@ const Carousel = () => {
     (state: RootState) => state.restaurantsDetails.itemsImage
   );
   return (
-    <div className="pt-14 md:pt-23 border-b-2 border-gray-200 pb-18">
-      <div className=" flex justify-between items-center">
-        <p className="text-2xl font-bold text-black/80">Whats on Your mind?</p>
+    <div className="pt-20 md:pt-23 border-b-2 border-gray-200 md:pb-18 pb-10 px-4 md:px-0">
+      <div className=" flex justify-between items-center ">
+        <p className="text-sm md:text-2xl font-bold text-black/80">Whats on Your mind?</p>
         <div className="flex gap-4 text-black/50">
           <span className="cursor-pointer" onClick={scrollLeft}>
             <CircleChevronLeft />

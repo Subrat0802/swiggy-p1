@@ -61,7 +61,7 @@ const TopRestaurants = () => {
             //     <p className="text-black/60 truncate">{el.info.areaName}</p>
             //   </div>
             // </div>
-            <RestaurantCard el={el} style={"min-w-80"} />
+            <RestaurantCard el={el} style={"md:min-w-80 min-w-60"} />
           ))
         )}
       </div>
