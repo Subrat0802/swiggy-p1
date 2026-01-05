@@ -8,8 +8,8 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(cors({
-    origin: process.env.FRONT_END,
-    credentials: true
+    origin: "http://localhost:5173",
+    credentials: true,
 }));
 dbConnect();
 app.use("/api/v1/auth", authRouter);

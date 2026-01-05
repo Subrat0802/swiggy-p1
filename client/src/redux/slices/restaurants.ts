@@ -1,0 +1,38 @@
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+
+interface Images {
+  id: string;
+  imageId: string;
+}
+
+interface TopRestaurants {
+    id: string
+    imageId: string
+    name: string
+}
+
+interface ItemsImageState {
+  itemsImage: Images[] | null;
+  topRestaurants: TopRestaurants[] | null;
+}
+
+const initialState: ItemsImageState = {
+  itemsImage: null,
+  topRestaurants: null
+};
+
+const itemsImageSlice = createSlice({
+  name: "itemsImages",
+  initialState,
+  reducers: {
+    setItemsImage(state, action: PayloadAction<Images[]>) {
+      state.itemsImage = action.payload;
+    },
+    setTopRestaurants(state, action: PayloadAction<TopRestaurants[]>) {
+      state.topRestaurants = action.payload;
+    },
+  },
+});
+
+export const { setItemsImage, setTopRestaurants } = itemsImageSlice.actions;
+export default itemsImageSlice.reducer;
