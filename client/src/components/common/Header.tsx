@@ -3,17 +3,25 @@ import Logo from "/swiggy_logo_white.jpg"
 import { setLeftOpen, setRightOpen } from "../../redux/slices/uiStates";
 import type { RootState } from "../../main";
 import { MapPin } from 'lucide-react';
-   
+import { useAuth } from "../../context/AuthContext";
+
+
 const Header = () => {
+    const {auth, setAuth} = useAuth();
   const dispatch = useDispatch();
   const uiState = useSelector((state: RootState) => state.uiStates);
   const handleLocationSidebar = () => {
     dispatch(setLeftOpen(!uiState.leftOpen))
   }
 
-  const handleAuthSidebar = () => {
+  console.log(auth);
+
+  const handleAuthSidebar = (value: string) => {
+    console.log("HANDLE AUTH", value);
     dispatch(setRightOpen(!uiState.rightOpen))
+    setAuth(value);
   }
+
 
   return (
     <div className="px-4 md:px-0 w-full bg-green-900 py-2 text-neutral-100 fixed z-10 shadow-xl">
@@ -30,8 +38,7 @@ const Header = () => {
                     <li className="cursor-pointer">Contact</li>
                     <li className="cursor-pointer">Items</li>
                 </ul>
-                <button className="p-2 border rounded-lg cursor-pointer" onClick={handleAuthSidebar}>Signup</button>
-                <button className="p-2 border rounded-lg cursor-pointer">Signin</button>
+                <button className="p-2 border rounded-lg cursor-pointer" onClick={() => handleAuthSidebar("signin")}>Login</button>
             </div>
         </div>
     </div>

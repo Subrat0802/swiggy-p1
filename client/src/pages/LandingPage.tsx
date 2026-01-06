@@ -6,7 +6,7 @@ import Carousel from "../components/landingPageComponents/Carousel";
 import TopRestaurants from "../components/landingPageComponents/TopRestaurants";
 import AllRestaurants from "../components/landingPageComponents/AllRestaurants";
 import type { RootState } from "../main";
-import { setLeftOpen, setRightOpen } from "../redux/slices/uiStates";
+import { setLeftOpen } from "../redux/slices/uiStates";
 import TopRestaurantsAcrossCity from "../components/landingPageComponents/TopRestaurantsAcrossCity";
 import Auth from "../components/landingPageComponents/Auth";
 
@@ -29,9 +29,6 @@ const LandingPage = () => {
       dispatch(setLeftOpen(false))
     }
 
-    const handleClickRightSidebar = () => {
-      dispatch(setRightOpen(false))
-    }
     
   return (
     <div className="min-h-screen relative">
@@ -43,9 +40,8 @@ const LandingPage = () => {
 
       <div className={`fixed right-0 top-0 w-[25%] h-screen bg-neutral-50 shadow-xl transform transition-transform duration-400 ease-in-out ${uiStates.rightOpen ? 
         "translate-x-0" : "translate-x-full" 
-      } flex justify-center items-center`}>
+      } flex justify-center items-center flex-col`}>
           <Auth />
-        
       </div>
 
         <div className="max-w-7xl mx-auto h-screen">
