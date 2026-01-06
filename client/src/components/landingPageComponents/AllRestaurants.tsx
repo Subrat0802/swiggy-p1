@@ -14,7 +14,7 @@ const AllRestaurants = () => {
             {
                 allRestaurants == null ? (<TopRestaurantsSkeleton />) : (
                     allRestaurants.map((el) => (
-                        <RestaurantCard el={el} style={"min-w-70"}/>
+                        <RestaurantCard key={el.info.id} el={el} style={"min-w-70"}/>
                     ))
                 )
             }

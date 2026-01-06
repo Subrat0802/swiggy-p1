@@ -11,7 +11,7 @@ export const signup = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const checkuser = await User.findOne({ email: email });
         if (checkuser) {
-            return res.status(200).json({
+            return res.status(403).json({
                 message: "User already signup, Please signin",
                 success: false,
             });
@@ -100,6 +100,52 @@ export const signin = async (req, res) => {
                 success: false,
             });
         }
+    }
+};
+export const getUser = async (req, res) => {
+    try {
+        //@ts-ignore
+        const { id } = req?.user;
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({
+                message: "user not found, please re-login.",
+            });
+        }
+        return res.status(200).json({
+            message: "All user Data",
+            data: user,
+        });
+    }
+    catch (error) {
+        let errorMessage = "Something went wrong, server!";
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+        return res.status(500).json({
+            message: "Server error while login.",
+            success: false,
+            error: errorMessage,
+        });
+    }
+};
+export const logout = (req, res) => {
+    try {
+        res.clearCookie("token", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+        });
+        return res.status(200).json({
+            success: true,
+            message: "Logged out successfully",
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Logout failed",
+        });
     }
 };
 //# sourceMappingURL=Auth.js.map

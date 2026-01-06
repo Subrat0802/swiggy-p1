@@ -4,22 +4,40 @@ import { setLeftOpen, setRightOpen } from "../../redux/slices/uiStates";
 import type { RootState } from "../../main";
 import { MapPin } from 'lucide-react';
 import { useAuth } from "../../context/AuthContext";
+import { clearUser } from "../../redux/slices/userState";
+import { logout } from "../../services/operations.ts/auth";
 
 
 const Header = () => {
     const {auth, setAuth} = useAuth();
   const dispatch = useDispatch();
   const uiState = useSelector((state: RootState) => state.uiStates);
+  const userState = useSelector((state: RootState) => state.userState.user);
+
   const handleLocationSidebar = () => {
+    if(uiState.rightOpen){
+      dispatch(setRightOpen(false))
+    }
     dispatch(setLeftOpen(!uiState.leftOpen))
   }
 
   console.log(auth);
 
   const handleAuthSidebar = (value: string) => {
-    console.log("HANDLE AUTH", value);
+    if(uiState.leftOpen){
+      dispatch(setLeftOpen(false))
+    }
     dispatch(setRightOpen(!uiState.rightOpen))
     setAuth(value);
+  }
+
+
+  const handleLogout = async () => {
+    try{
+      await logout();
+    }finally{
+      dispatch(clearUser())
+    }
   }
 
 
@@ -38,7 +56,8 @@ const Header = () => {
                     <li className="cursor-pointer">Contact</li>
                     <li className="cursor-pointer">Items</li>
                 </ul>
-                <button className="p-2 border rounded-lg cursor-pointer" onClick={() => handleAuthSidebar("signin")}>Login</button>
+                {userState == null && <button className="p-2 border rounded-lg cursor-pointer" onClick={() => handleAuthSidebar("signin")}>Login</button>}
+                {userState != null && <button className="p-2 border rounded-lg cursor-pointer" onClick={handleLogout}>logout</button>}
             </div>
         </div>
     </div>

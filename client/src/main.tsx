@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import rootReducer from "./redux/reducer.ts";
 import { AuthProvider } from "./context/AuthContext.tsx";
+import { Toaster } from "sonner";
 
 const store = configureStore({
   reducer: rootReducer,
@@ -15,11 +16,14 @@ export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 createRoot(document.getElementById("root")!).render(
+  
   <BrowserRouter>
     <Provider store={store}>
       <AuthProvider>
+        <Toaster richColors position="bottom-right" ></Toaster>
         <App />
       </AuthProvider>
     </Provider>
   </BrowserRouter>
+ 
 );
