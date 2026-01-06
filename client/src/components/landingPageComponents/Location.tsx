@@ -34,7 +34,7 @@ const Location = () => {
     }
 
   return (
-    <div className="h-full p-8 flex flex-col gap-3 justify-center items-center">
+    <div className="h-full p-8 flex flex-col gap-3 ">
         <div className="relative w-full">
             <input 
             placeholder="Search your city" 

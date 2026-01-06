@@ -4,13 +4,17 @@ import LandingPage from "./pages/LandingPage";
 import Header from "./components/common/Header";
 import { me } from "./services/operations.ts/auth";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearUser, setUser } from "./redux/slices/userState";
+import type { RootState } from "./main";
 
 function App() {
   const dispatch = useDispatch();
-  
+  const user = useSelector((state: RootState) => state.userState.user);
   const getUser = async () => {
+    if(user == null){
+      return;
+    }
   try {
       const res = await me();
       dispatch(setUser(res?.data.data));

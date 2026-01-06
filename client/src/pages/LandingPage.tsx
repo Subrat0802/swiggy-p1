@@ -51,7 +51,7 @@ const LandingPage = () => {
     
   return (
     <div className="min-h-screen relative">
-      <div className={`fixed left-0 top-0 h-screen w-[70%] md:w-[25%] bg-neutral-50 shadow-xl transform transition-transform duration-300 ease-in-out ${uiStates.leftOpen ? 
+      <div className={`fixed left-0 top-0 h-screen w-full md:w-[25%] bg-neutral-50 shadow-xl transform transition-transform duration-300 ease-in-out ${uiStates.leftOpen ? 
         "translate-x-0" : "-translate-x-full"
       }`}>
         <button onClick={handleClickLeftSidebar} className="pt-24 cursor-pointer flex justify-between w-full px-2"><div></div> <div 
@@ -60,7 +60,7 @@ const LandingPage = () => {
         <Location />
       </div>
 
-      {userState == null && <div className={`fixed right-0 top-0 w-[25%] h-screen bg-neutral-50 shadow-xl transform transition-transform duration-400 ease-in-out ${uiStates.rightOpen ? 
+      {userState == null && <div className={`fixed right-0 top-0 w-full md:w-[25%] h-screen bg-neutral-50 shadow-xl transform transition-transform duration-400 ease-in-out ${uiStates.rightOpen ? 
         "translate-x-0" : "translate-x-full" 
       } `}>
         <button onClick={handleClickRightSidebar} className="pt-24 cursor-pointer flex justify-between w-full px-2"> <div 

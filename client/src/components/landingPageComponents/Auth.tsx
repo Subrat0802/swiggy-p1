@@ -51,8 +51,8 @@ const Auth = () => {
   }
 
   return (
-    <div className="relative flex flex-col items-center w-full px-6 py-8">
-      <h2 className="text-2xl font-bold text-gray-900">
+    <div className="relative flex flex-col items-center w-full px-6 py-8 ">
+      <h2 className="text-xl md:text-2xl font-bold text-center text-gray-900">
         {isSignup ? "Create an account" : "Welcome back"}
       </h2>
       <p className="text-sm text-gray-500 mt-1 mb-6 text-center">
