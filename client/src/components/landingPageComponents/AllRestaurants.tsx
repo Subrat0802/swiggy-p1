@@ -6,7 +6,7 @@ import TopRestaurantsSkeleton from "../loadingSkeleton/TopRestaurantsSkeleton";
 const AllRestaurants = () => {
     const allRestaurants = useSelector((state: RootState) => state.restaurantsDetails.allRestaurants);
   return (
-    <div className="w-full mt-20 px-4 md:px-0">
+    <div className="w-full mt-20 px-4 md:px-0 mb-20">
         <div>
             <p className="text-2xl font-bold mb-5">All Restaurants</p>
         </div>

@@ -1,5 +1,4 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-
 interface RestaurantsInfo {
     id: string,
     name: string,
@@ -26,17 +25,24 @@ interface TopRestaurants {
     info: RestaurantsInfo
 }
 
+interface AllCityBrands {
+  text: string,
+  link: string
+}
+
 //----
 interface ItemsImageState {
   itemsImage: Images[] | null;
   topRestaurants: TopRestaurants[] | null;
   allRestaurants: TopRestaurants[] | null;
+  allCityBrands: AllCityBrands[] | null;
 }
 
 const initialState: ItemsImageState = {
   itemsImage: null,
   topRestaurants: null,
-  allRestaurants: null
+  allRestaurants: null,
+  allCityBrands: null,
 };
 
 const itemsImageSlice = createSlice({
@@ -52,8 +58,11 @@ const itemsImageSlice = createSlice({
     setAllRestaurants(state, action: PayloadAction<TopRestaurants[]>) {
       state.allRestaurants = action.payload;
     },
+    setAllCityBrand(state, action: PayloadAction<AllCityBrands[]>) {
+      state.allCityBrands = action.payload
+    }
   },
 });
 
-export const { setItemsImage, setTopRestaurants, setAllRestaurants } = itemsImageSlice.actions;
+export const { setItemsImage, setTopRestaurants, setAllRestaurants, setAllCityBrand } = itemsImageSlice.actions;
 export default itemsImageSlice.reducer;
