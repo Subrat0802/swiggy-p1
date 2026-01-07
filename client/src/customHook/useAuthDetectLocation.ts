@@ -2,7 +2,6 @@ import { useEffect } from "react"
 import { getCurrentLocation } from "./getCurrentLocation";
 import { me } from "../services/operations.ts/auth";
 import { addLocation } from "../services/operations.ts/location";
-import { toast } from "sonner";
 import { useDispatch } from "react-redux";
 import { setLocation } from "../redux/slices/location";
 

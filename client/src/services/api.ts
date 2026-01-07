@@ -1,14 +1,15 @@
 const BASE_URL = import.meta.env.VITE_BASE_URL as string;
-console.log(BASE_URL);
 
 export const authEndpoint = {
     SIGNUP: BASE_URL + "/api/v1/auth/signup",
     SIGNIN: BASE_URL + "/api/v1/auth/signin",
     ME: BASE_URL + "/api/v1/auth/me",
-    LOGOUT: BASE_URL + "/api/v1/auth/logout"
+    LOGOUT: BASE_URL + "/api/v1/auth/logout",
+    ADD_LOCATION: BASE_URL + "/api/v1/auth/addLocation"
 } 
 
-export const resEndpoint:{restaurants: string} = {
+export const resEndpoint = {
     restaurants: BASE_URL + "/api/v1/allRestaurants/restaurants",
+    restaurantsAfterLogin: BASE_URL + "/api/v1/allRestaurants/restaurantsAfterLogin",
 } 
 

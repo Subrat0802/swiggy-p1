@@ -5,6 +5,11 @@ declare const User: mongoose.Model<{
     email: string;
     password: string;
     token?: string | null;
+    currentLocation?: {
+        lat: string;
+        lon: string;
+        location: string;
+    } | null;
 } & mongoose.DefaultTimestampProps, {}, {}, {
     id: string;
 }, mongoose.Document<unknown, {}, {
@@ -13,6 +18,11 @@ declare const User: mongoose.Model<{
     email: string;
     password: string;
     token?: string | null;
+    currentLocation?: {
+        lat: string;
+        lon: string;
+        location: string;
+    } | null;
 } & mongoose.DefaultTimestampProps, {
     id: string;
 }, {
@@ -23,6 +33,11 @@ declare const User: mongoose.Model<{
     email: string;
     password: string;
     token?: string | null;
+    currentLocation?: {
+        lat: string;
+        lon: string;
+        location: string;
+    } | null;
 } & mongoose.DefaultTimestampProps & {
     _id: mongoose.Types.ObjectId;
 } & {
@@ -37,12 +52,22 @@ declare const User: mongoose.Model<{
     email: string;
     password: string;
     token?: string | null;
+    currentLocation?: {
+        lat: string;
+        lon: string;
+        location: string;
+    } | null;
 } & mongoose.DefaultTimestampProps, mongoose.Document<unknown, {}, {
     firstName: string;
     lastName: string;
     email: string;
     password: string;
     token?: string | null;
+    currentLocation?: {
+        lat: string;
+        lon: string;
+        location: string;
+    } | null;
 } & mongoose.DefaultTimestampProps, {
     id: string;
 }, mongoose.ResolveSchemaOptions<{
@@ -53,6 +78,11 @@ declare const User: mongoose.Model<{
     email: string;
     password: string;
     token?: string | null;
+    currentLocation?: {
+        lat: string;
+        lon: string;
+        location: string;
+    } | null;
 } & mongoose.DefaultTimestampProps & {
     _id: mongoose.Types.ObjectId;
 } & {
@@ -68,6 +98,11 @@ declare const User: mongoose.Model<{
         email: string;
         password: string;
         token?: string | null;
+        currentLocation?: {
+            lat: string;
+            lon: string;
+            location: string;
+        } | null;
     } & mongoose.DefaultTimestampProps, {
         id: string;
     }, mongoose.ResolveSchemaOptions<{
@@ -78,6 +113,11 @@ declare const User: mongoose.Model<{
         email: string;
         password: string;
         token?: string | null;
+        currentLocation?: {
+            lat: string;
+            lon: string;
+            location: string;
+        } | null;
     } & mongoose.DefaultTimestampProps & {
         _id: mongoose.Types.ObjectId;
     } & {
@@ -91,6 +131,11 @@ declare const User: mongoose.Model<{
     email: string;
     password: string;
     token?: string | null;
+    currentLocation?: {
+        lat: string;
+        lon: string;
+        location: string;
+    } | null;
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
@@ -103,6 +148,11 @@ declare const User: mongoose.Model<{
     email: string;
     password: string;
     token?: string | null;
+    currentLocation?: {
+        lat: string;
+        lon: string;
+        location: string;
+    } | null;
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {

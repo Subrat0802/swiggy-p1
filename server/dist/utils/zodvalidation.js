@@ -7,6 +7,13 @@ export const signUpvalidation = z.object({
 });
 export const signInvalidation = z.object({
     email: z.string().email(),
-    password: z.string().min(6)
+    password: z.string().min(6),
+    lat: z.string().optional(),
+    lon: z.string().optional(),
+});
+export const locationValidation = z.object({
+    locationName: z.string().min(2),
+    lat: z.string().min(2),
+    lon: z.string().min(2),
 });
 //# sourceMappingURL=zodvalidation.js.map

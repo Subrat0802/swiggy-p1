@@ -9,7 +9,7 @@ import { logout } from "../../services/operations.ts/auth";
 
 
 const Header = () => {
-    const {auth, setAuth} = useAuth();
+    const {setAuth} = useAuth();
   const dispatch = useDispatch();
   const uiState = useSelector((state: RootState) => state.uiStates);
   const userState = useSelector((state: RootState) => state.userState.user);
@@ -20,8 +20,6 @@ const Header = () => {
     }
     dispatch(setLeftOpen(!uiState.leftOpen))
   }
-
-  console.log(auth);
 
   const handleAuthSidebar = (value: string) => {
     if(uiState.leftOpen){

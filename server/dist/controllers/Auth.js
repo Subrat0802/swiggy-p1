@@ -53,7 +53,7 @@ export const signup = async (req, res) => {
 };
 export const signin = async (req, res) => {
     try {
-        const { email, password } = await signInvalidation.parseAsync(req.body);
+        const { email, password, lat, lon } = await signInvalidation.parseAsync(req.body);
         const response = await User.findOne({ email: email }).select("+password");
         if (!response) {
             return res.status(400).json({
@@ -78,6 +78,16 @@ export const signin = async (req, res) => {
             expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
             httpOnly: true,
         };
+        // Update user's current location if provided
+        if (lat && lon) {
+            // Get location name from reverse geocoding (optional, can be done on client side)
+            response.currentLocation = {
+                location: response.currentLocation?.location || "Current Location",
+                lat: lat,
+                lon: lon
+            };
+            await response.save();
+        }
         response.password = undefined;
         return res.cookie("token", token, options).status(200).json({
             message: "User signin successfully",
