@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { restaurantsData, restaurantsDataAfterLogin } from "../services/operations.ts/reastaurantApi";
+import { restaurantsData } from "../services/operations.ts/reastaurantApi";
 import { useDispatch, useSelector } from "react-redux";
 import { setAllCityBrand, setAllRestaurants, setItemsImage, setTopRestaurants } from "../redux/slices/restaurants";
 import Carousel from "../components/landingPageComponents/Carousel";
@@ -20,16 +20,12 @@ const LandingPage = () => {
     const user = useSelector((state: RootState ) => state.userState.user);
     const locationState = useSelector((state: RootState) => state.locationState.location);
 
-    // Get location from Redux state or localStorage as fallback
-    const location = locationState || {
-      location: localStorage.getItem("location") ?? "",
-      lat: localStorage.getItem("lat") ?? "",
-      lon: localStorage.getItem("lon") ?? "",
-    };
+    // Extract location values - use Redux state if available, otherwise fallback to localStorage
+    const lat = locationState?.lat || localStorage.getItem("lat") || "";
+    const lon = locationState?.lon || localStorage.getItem("lon") || "";
+    const locationName = locationState?.location || localStorage.getItem("location") || "";
 
     useEffect(() => {
-        const {location: locationName, lat, lon} = location;
-        
         // Only fetch if we have valid coordinates
         if(!lat || !lon) {
             return;
@@ -37,7 +33,9 @@ const LandingPage = () => {
         
         const fetchData = async () => {
           try {
-            const res = user ? await restaurantsDataAfterLogin({locationName, lat, lon}) : await restaurantsData({lat, lon})
+            // Always use restaurantsData to fetch restaurants
+            // Location update for logged-in users is handled separately in Location.tsx via addLocation
+            const res = await restaurantsData({lat, lon})
             if(res?.data) {
               dispatch(setItemsImage(res?.data[0]?.card?.card?.gridElements?.infoWithStyle?.info));
               dispatch(setTopRestaurants(res?.data[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants)); //4
@@ -49,7 +47,7 @@ const LandingPage = () => {
           }
         }
         fetchData();
-    }, [dispatch, location.lat, location.lon, location.location, user]);
+    }, [dispatch, lat, lon]);
 
     const uiStates = useSelector((state: RootState) => state.uiStates);
     const userState = useSelector((state: RootState) => state.userState.user);
