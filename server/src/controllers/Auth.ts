@@ -59,7 +59,7 @@ export const signup = async (req: Request, res: Response) => {
 
 export const signin = async (req: Request, res: Response) => {
   try {
-    const { email, password } = await signInvalidation.parseAsync(req.body);
+    const { email, password, lat, lon } = await signInvalidation.parseAsync(req.body);
 
     const response = await User.findOne({ email: email }).select("+password");
     if (!response) {
@@ -92,6 +92,17 @@ export const signin = async (req: Request, res: Response) => {
       expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
       httpOnly: true,
     };
+
+    // Update user's current location if provided
+    if(lat && lon) {
+      // Get location name from reverse geocoding (optional, can be done on client side)
+      response.currentLocation = {
+        location: response.currentLocation?.location || "Current Location",
+        lat: lat,
+        lon: lon
+      };
+      await response.save();
+    }
 
     (response as any).password = undefined;
 

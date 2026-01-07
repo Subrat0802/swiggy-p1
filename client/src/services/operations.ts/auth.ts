@@ -4,6 +4,7 @@ import { apiConnector } from "../apiConnector";
 import { toast } from "sonner";
 import axios from "axios";
 
+
 const { SIGNUP, SIGNIN, ME, LOGOUT } = authEndpoint;
 
 
@@ -52,9 +53,11 @@ export const signup = async ({
 interface SigninPayload {
   email: string;
   password: string;
+  lat?: string;
+  lon?: string;
 }
 
-export const signin = async ({ email, password }: SigninPayload) => {
+export const signin = async ({ email, password, lat, lon }: SigninPayload) => {
     if(!email || !password){
         toast.error("Email and password are required")
         return;
@@ -63,6 +66,8 @@ export const signin = async ({ email, password }: SigninPayload) => {
     const response = await apiConnector("POST", SIGNIN, {
       email,
       password,
+      lat: lat || "",
+      lon: lon || "",
     });
 
     toast.success("Signin successful");
@@ -81,29 +86,31 @@ export const signin = async ({ email, password }: SigninPayload) => {
 };
 
 
+
 export const me = async () => {
   try {
     const res = await apiConnector("GET", ME);
-    return res;
+    return res?.data || res; 
   } catch (error: any) {
-    let message = "Unable to fetch user data";
+    let message = "User not logged in";
+
     if (axios.isAxiosError(error)) {
+      if (error.response?.status === 401 || error.response?.status === 404) {
+        console.log("User not authenticated");
+        return null; 
+      }
       message =
         error.response?.data?.message ||
         error.response?.data?.error ||
         error.message;
-    }
-    else if (error instanceof Error) {
+    } else if (error instanceof Error) {
       message = error.message;
     }
 
     console.error("ME ROUTE ERROR:", message);
-
-    //IMPORTANT: rethrow so caller can handle logout
-    throw new Error(message);
+    return null; 
   }
 };
-
 
 
 

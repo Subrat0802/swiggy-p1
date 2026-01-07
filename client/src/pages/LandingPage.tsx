@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { restaurantsData } from "../services/operations.ts/reastaurantApi";
+import { restaurantsData, restaurantsDataAfterLogin } from "../services/operations.ts/reastaurantApi";
 import { useDispatch, useSelector } from "react-redux";
 import { setAllCityBrand, setAllRestaurants, setItemsImage, setTopRestaurants } from "../redux/slices/restaurants";
 import Carousel from "../components/landingPageComponents/Carousel";
@@ -11,19 +11,45 @@ import TopRestaurantsAcrossCity from "../components/landingPageComponents/TopRes
 import Auth from "../components/landingPageComponents/Auth";
 import Location from "../components/landingPageComponents/Location";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import useAutoDetactLocation from "../customHook/useAuthDetectLocation";
 
 const LandingPage = () => {
+    useAutoDetactLocation()
     const dispatch = useDispatch();
+
+    const user = useSelector((state: RootState ) => state.userState.user);
+    const locationState = useSelector((state: RootState) => state.locationState.location);
+
+    // Get location from Redux state or localStorage as fallback
+    const location = locationState || {
+      location: localStorage.getItem("location") ?? "",
+      lat: localStorage.getItem("lat") ?? "",
+      lon: localStorage.getItem("lon") ?? "",
+    };
+
     useEffect(() => {
+        const {location: locationName, lat, lon} = location;
+        
+        // Only fetch if we have valid coordinates
+        if(!lat || !lon) {
+            return;
+        }
+        
         const fetchData = async () => {
-          const res = await restaurantsData()
-          dispatch(setItemsImage(res?.data[0]?.card?.card?.gridElements?.infoWithStyle?.info));
-          dispatch(setTopRestaurants(res?.data[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants)); //4
-          dispatch(setAllRestaurants(res?.data[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants)); //setBestPlaceAcrossCity
-          dispatch(setAllCityBrand(res?.data[6]?.card?.card.brands));
+          try {
+            const res = user ? await restaurantsDataAfterLogin({locationName, lat, lon}) : await restaurantsData({lat, lon})
+            if(res?.data) {
+              dispatch(setItemsImage(res?.data[0]?.card?.card?.gridElements?.infoWithStyle?.info));
+              dispatch(setTopRestaurants(res?.data[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants)); //4
+              dispatch(setAllRestaurants(res?.data[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants)); //setBestPlaceAcrossCity
+              dispatch(setAllCityBrand(res?.data[6]?.card?.card.brands));
+            }
+          } catch (error) {
+            console.error("Error fetching restaurants:", error);
+          }
         }
         fetchData();
-    }, [dispatch]);
+    }, [dispatch, location.lat, location.lon, location.location, user]);
 
     const uiStates = useSelector((state: RootState) => state.uiStates);
     const userState = useSelector((state: RootState) => state.userState.user);

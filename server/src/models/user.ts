@@ -1,4 +1,6 @@
 import mongoose, { Schema } from "mongoose";
+import { string } from "zod";
+import { required } from "zod/mini";
 
 const userSchema = new Schema(
   {
@@ -26,6 +28,20 @@ const userSchema = new Schema(
     },
     token: {
       type: String,
+    },
+    currentLocation: {
+      location: {
+        type: String,
+        default: "",
+      },
+      lat: {
+        type: String,
+        default: "",
+      },
+      lon: {
+        type: String,
+        default: "",
+      },
     },
   },
   {

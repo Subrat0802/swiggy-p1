@@ -40,7 +40,11 @@ const Auth = () => {
   const handleSignin = async () => {
     const {email, password} = signupForm;
     try{
-        const res = await signin({email, password});
+        // Get current location from localStorage
+        const lat = localStorage.getItem("lat") || "";
+        const lon = localStorage.getItem("lon") || "";
+        
+        const res = await signin({email, password, lat, lon});
         console.log("RES,", res);
         dispatch(setUser(res));
         me();
