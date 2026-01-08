@@ -11,5 +11,6 @@ export const authEndpoint = {
 export const resEndpoint = {
     restaurants: BASE_URL + "/api/v1/allRestaurants/restaurants",
     restaurantsAfterLogin: BASE_URL + "/api/v1/allRestaurants/restaurantsAfterLogin",
+    restaurantsfetchRestaurantItems: BASE_URL + "/api/v1/allRestaurants/restaurantsfetchRestaurantItems"
 } 
 

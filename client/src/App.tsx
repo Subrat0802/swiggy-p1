@@ -7,6 +7,8 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { clearUser, setUser } from "./redux/slices/userState";
 import { setLocation } from "./redux/slices/location";
+import { ProtectedRoute } from "./components/common/ProtectedRoute";
+import ItemsList from "./pages/ItemsList";
 
 
 function App() {
@@ -43,6 +45,9 @@ function App() {
       <Header />
       <Routes>
         <Route path="" element={<LandingPage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path={`items/:id`} element={<ItemsList />} />
+        </Route>
       </Routes>
     </div>
   );

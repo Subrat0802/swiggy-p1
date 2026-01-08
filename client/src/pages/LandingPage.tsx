@@ -17,13 +17,13 @@ const LandingPage = () => {
     useAutoDetactLocation()
     const dispatch = useDispatch();
 
-    const user = useSelector((state: RootState ) => state.userState.user);
+    // const user = useSelector((state: RootState ) => state.userState.user);
     const locationState = useSelector((state: RootState) => state.locationState.location);
 
     // Extract location values - use Redux state if available, otherwise fallback to localStorage
     const lat = locationState?.lat || localStorage.getItem("lat") || "";
     const lon = locationState?.lon || localStorage.getItem("lon") || "";
-    const locationName = locationState?.location || localStorage.getItem("location") || "";
+    // const locationName = locationState?.location || localStorage.getItem("location") || "";
 
     useEffect(() => {
         // Only fetch if we have valid coordinates

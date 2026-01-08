@@ -5,6 +5,7 @@ import TopRestaurantsSkeleton from "../loadingSkeleton/TopRestaurantsSkeleton";
 
 const AllRestaurants = () => {
     const allRestaurants = useSelector((state: RootState) => state.restaurantsDetails.allRestaurants);
+
   return (
     <div className="w-full mt-20 px-4 md:px-0 mb-20">
         <div>
@@ -14,7 +15,7 @@ const AllRestaurants = () => {
             {
                 allRestaurants == null ? (<TopRestaurantsSkeleton />) : (
                     allRestaurants.map((el) => (
-                        <RestaurantCard key={el.info.id} el={el} style={"min-w-70"}/>
+                        <RestaurantCard  key={el.info.id} el={el} style={"min-w-70"}/>
                     ))
                 )
             }

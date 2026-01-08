@@ -4,9 +4,15 @@ import TopRestaurantsSkeleton from "../loadingSkeleton/TopRestaurantsSkeleton";
 import RestaurantCard from "./RestaurantCard";
 import { CircleChevronRight, CircleChevronLeft } from "lucide-react";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
+// import { toast } from "sonner";
+// import { setRightOpen } from "../../redux/slices/uiStates";
 
 const TopRestaurants = () => {
     const scrollRef = useRef<HTMLDivElement | null>(null);
+    // const navigate = useNavigate();
+    // const dispatch = useDispatch();
     
   const toprestaurants = useSelector(
     (state: RootState) => state.restaurantsDetails.topRestaurants
@@ -22,6 +28,17 @@ const TopRestaurants = () => {
         scrollRef.current.scrollLeft += 500;
     }
   }
+
+  // const getUser = useSelector((state: RootState) => state.userState.user);
+
+  // const halndleClickOnCard = () => {
+  //   if(!getUser){
+  //     toast.warning("Please login first");
+  //     dispatch(setRightOpen(true));
+  //     return;
+  //   }
+  //   navigate("/items")
+  // }
 
   return (
     <div className="my-7 mb-14 px-4 md:px-0">
@@ -61,7 +78,12 @@ const TopRestaurants = () => {
             //     <p className="text-black/60 truncate">{el.info.areaName}</p>
             //   </div>
             // </div>
-            <RestaurantCard key={el.info.id} el={el} style={"md:min-w-80 min-w-60"} />
+            <Link key={el.info.id} to={`/items/${el.info.id}`}><RestaurantCard
+              el={el}
+              // onClick={halndleClickOnCard}
+              style="md:min-w-80 max-w-60"
+            /></Link>
+
           ))
         )}
       </div>

@@ -21,10 +21,6 @@ interface TopRestaurants {
     info: RestaurantsInfo
 }
 
-interface TopRestaurants {
-    info: RestaurantsInfo
-}
-
 interface AllCityBrands {
   text: string,
   link: string
@@ -36,6 +32,7 @@ interface ItemsImageState {
   topRestaurants: TopRestaurants[] | null;
   allRestaurants: TopRestaurants[] | null;
   allCityBrands: AllCityBrands[] | null;
+  restaurantsDetailsForItemPage: TopRestaurants | null;
 }
 
 const initialState: ItemsImageState = {
@@ -43,6 +40,7 @@ const initialState: ItemsImageState = {
   topRestaurants: null,
   allRestaurants: null,
   allCityBrands: null,
+  restaurantsDetailsForItemPage:null
 };
 
 const itemsImageSlice = createSlice({
@@ -58,11 +56,14 @@ const itemsImageSlice = createSlice({
     setAllRestaurants(state, action: PayloadAction<TopRestaurants[]>) {
       state.allRestaurants = action.payload;
     },
-    setAllCityBrand(state, action: PayloadAction<AllCityBrands[]>) {
+    setAllCityBrand(state, action: PayloadAction<AllCityBrands[]>) { //
       state.allCityBrands = action.payload
-    }
+    },
+    setRestaurantsDetailsForItemPage(state, action: PayloadAction<TopRestaurants>) {
+      state.restaurantsDetailsForItemPage = action.payload;
+    },
   },
 });
 
-export const { setItemsImage, setTopRestaurants, setAllRestaurants, setAllCityBrand } = itemsImageSlice.actions;
+export const { setItemsImage, setTopRestaurants, setAllRestaurants, setAllCityBrand, setRestaurantsDetailsForItemPage } = itemsImageSlice.actions;
 export default itemsImageSlice.reducer;

@@ -11,8 +11,10 @@ interface UserState {
   user: User | null;
 }
 
+const savedUser = sessionStorage.getItem("user");
+
 const initialState: UserState = {
-  user: null,
+  user: savedUser ? JSON.parse(savedUser) : null,
 };
 
 
@@ -22,6 +24,7 @@ const userSlice = createSlice({
   reducers: {
     setUser(state, action: PayloadAction<User>) {
       state.user = action.payload; 
+      sessionStorage.setItem("user", JSON.stringify(action.payload));
     },
     clearUser(state) {
       state.user = null;
