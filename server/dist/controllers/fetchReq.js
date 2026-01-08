@@ -1,3 +1,4 @@
+import {} from "express";
 import User from "../models/user.js";
 import { locationValidation } from "../utils/zodvalidation.js";
 import { ZodError } from "zod";
@@ -71,5 +72,24 @@ export const fetchRestaurantAfterUserLogin = async (req, res) => {
             });
         }
     }
+};
+const GITHUB_URL = "https://raw.githubusercontent.com/Subrat0802/swiggy-menu/main/items.json";
+export const fetchRestaurantItems = async (req, res) => {
+    const { lat, lon, resId } = req.query;
+    const swiggyUrl = `https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=${lat}&lng=${lon}&restaurantId=${resId}&submitAction=ENTER`;
+    try {
+        const swiggyRes = await fetch(swiggyUrl);
+        const swiggyText = await swiggyRes.text();
+        if (swiggyText) {
+            const data = JSON.parse(swiggyText);
+            return res.json({ source: "swiggy", data });
+        }
+    }
+    catch (e) {
+    }
+    // 👉 fallback to github json
+    const githubRes = await fetch(GITHUB_URL);
+    const githubData = await githubRes.json();
+    return res.json({ source: "github", data: githubData.data });
 };
 //# sourceMappingURL=fetchReq.js.map
