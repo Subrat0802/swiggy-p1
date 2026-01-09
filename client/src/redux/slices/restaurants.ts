@@ -21,10 +21,41 @@ interface TopRestaurants {
     info: RestaurantsInfo
 }
 
+interface ResDetailsItemPage {
+    id: string,
+    name: string,
+    cloudinaryImageId: string,
+    areaName: string
+    cuisines: [string]
+    costForTwo: string
+    avgRating: string,
+    totalRatingsString: string,
+    costForTwoMessage: string
+}
+
 interface AllCityBrands {
   text: string,
   link: string
 }
+
+interface DishCard {
+  card: {
+    info: {
+      id: string;
+      name: string;
+      category?: string;
+      imageId?: string;
+      price?: number;
+    };
+  };
+}
+
+interface ItemCategory {
+  title: string;
+  itemsCard: DishCard[];
+}
+
+
 
 //----
 interface ItemsImageState {
@@ -32,7 +63,8 @@ interface ItemsImageState {
   topRestaurants: TopRestaurants[] | null;
   allRestaurants: TopRestaurants[] | null;
   allCityBrands: AllCityBrands[] | null;
-  restaurantsDetailsForItemPage: TopRestaurants | null;
+  restaurantsDetailsForItemPage: ResDetailsItemPage | null;
+  itemsDetails: ItemCategory[] | null;
 }
 
 const initialState: ItemsImageState = {
@@ -40,7 +72,8 @@ const initialState: ItemsImageState = {
   topRestaurants: null,
   allRestaurants: null,
   allCityBrands: null,
-  restaurantsDetailsForItemPage:null
+  restaurantsDetailsForItemPage:null,
+  itemsDetails: null
 };
 
 const itemsImageSlice = createSlice({
@@ -59,11 +92,14 @@ const itemsImageSlice = createSlice({
     setAllCityBrand(state, action: PayloadAction<AllCityBrands[]>) { //
       state.allCityBrands = action.payload
     },
-    setRestaurantsDetailsForItemPage(state, action: PayloadAction<TopRestaurants>) {
+    setRestaurantsDetailsForItemPage(state, action: PayloadAction<ResDetailsItemPage>) {
       state.restaurantsDetailsForItemPage = action.payload;
     },
+    setItemsDetails(state, action: PayloadAction<ItemCategory[]>) {
+      state.itemsDetails = action.payload
+    } 
   },
 });
 
-export const { setItemsImage, setTopRestaurants, setAllRestaurants, setAllCityBrand, setRestaurantsDetailsForItemPage } = itemsImageSlice.actions;
+export const { setItemsImage, setTopRestaurants, setAllRestaurants, setAllCityBrand, setRestaurantsDetailsForItemPage, setItemsDetails } = itemsImageSlice.actions;
 export default itemsImageSlice.reducer;
