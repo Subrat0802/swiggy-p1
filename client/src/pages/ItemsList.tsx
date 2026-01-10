@@ -8,8 +8,9 @@ import {
   setRestaurantsDetailsForItemPage,
 } from "../redux/slices/restaurants";
 import { StarIcon } from "../../src/assets/starSvg";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Tag } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { IMAGE_CDN } from "../utils";
 
 const ItemsList = () => {
   const dispatch = useDispatch();
@@ -143,8 +144,7 @@ const ItemsList = () => {
                   </div>
                 </div>
               </div>
-
-              <div className="bg-gray-400  p-4 absolute w-full bottom-0 left-0 rounded-b-xl"></div>
+              <div className="bg-gray-400  p-4 absolute w-full bottom-0 left-0 rounded-b-xl"></div>{" "}
             </div>
 
             <div className="rounded-xl flex flex-col gap-2 mt-6">
@@ -172,22 +172,44 @@ const ItemsList = () => {
                     <div>
                       {el.itemsCard.map((el) => (
                         <AnimatePresence key={el.card.info.id}>
-                        {openIndex === i && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.3 }}
-                            className="overflow-hidden"
-                          >
-                            <div className="px-3 py-2">
-                              <p>{el.card.info.name} ({el.card.info.category})</p>
-                              <p></p>
-                            </div>
-                            
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
+                          {openIndex === i && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.3 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="px-3 py-7 border-b border-gray-300 flex mx-4 rounded-xl mb-3">
+                                <div className=" w-full">
+                                  <div className="min-w-[70%]" >
+                                  {el.card.info.itemAttribute.vegClassifier ===
+                                  "NONVEG" ? (
+                                    <img className="max-w-5" src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Non_veg_symbol.svg" />
+                                  ) : (
+                                    <img className="max-w-5" src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Veg_symbol.svg" />
+                                  )}
+                                </div>
+                                <p className="font-semibold text-black/80 text-lg py-1 pt-2">
+                                  {el.card.info.name} 
+                                </p>
+                                <div className="flex gap-2 items-center">
+                                  <p className="font-semibold text-gray-500/70 text-lg py-2 line-through">₹{el.card.info.defaultPrice / 100} </p>
+                                  <p className="font-semibold text-black/60 text-lg py-2 ">₹{el.card.info.defaultPrice / 100 + 60} </p>
+                                  <Tag className="text-green-900 bg-clip-text " width={15}/>
+                                </div>
+                                </div>
+                                <div className=" w-[30%] relative">
+                                  <div className="flex justify-center items-center absolute -bottom-6 p-2 bg-transaprent w-full mx-auto">
+                                    <div className="bg-white border border-green-800 px-9 rounded-xl py-2 cursor-pointer">Add</div>
+                                  </div>
+                                  <img className="rounded-xl" src={`${IMAGE_CDN}${el.card.info.imageId}`}/>
+                                </div>
+                                
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
                       ))}
                     </div>
                   </div>
