@@ -34,8 +34,6 @@ const ItemsList = () => {
       //@ts-ignore
       const resDetails = res?.data?.data?.cards;
 
-      console.log("RESDETAILS", resDetails);
-
       const filterResDetails = await resDetails.filter(
         (el: { card: { card: { [x: string]: string } } }) =>
           el?.card?.card?.["@type"] ===
