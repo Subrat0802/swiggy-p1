@@ -55,7 +55,12 @@ interface ItemCategory {
   itemsCard: DishCard[];
 }
 
-
+interface CartInfo {
+  id: string
+  image: string,
+  name: string,
+  price: number
+}
 
 //----
 interface ItemsImageState {
@@ -65,6 +70,7 @@ interface ItemsImageState {
   allCityBrands: AllCityBrands[] | null;
   restaurantsDetailsForItemPage: ResDetailsItemPage | null;
   itemsDetails: ItemCategory[] | null;
+  cartItems: CartInfo[] 
 }
 
 const initialState: ItemsImageState = {
@@ -73,7 +79,8 @@ const initialState: ItemsImageState = {
   allRestaurants: null,
   allCityBrands: null,
   restaurantsDetailsForItemPage:null,
-  itemsDetails: null
+  itemsDetails: null,
+  cartItems: []
 };
 
 const itemsImageSlice = createSlice({
@@ -97,9 +104,20 @@ const itemsImageSlice = createSlice({
     },
     setItemsDetails(state, action: PayloadAction<ItemCategory[]>) {
       state.itemsDetails = action.payload
-    } 
+    },
+    setCartItems(state, action: PayloadAction<CartInfo>){
+      state.cartItems.push(action.payload)
+    },
+    removeFromCart(state, action: PayloadAction<string>) {
+      state.cartItems = state.cartItems.filter(
+        item => item.id !== action.payload
+      );
+    },
+    clearCart(state) {
+      state.cartItems = [];
+    }
   },
 });
 
-export const { setItemsImage, setTopRestaurants, setAllRestaurants, setAllCityBrand, setRestaurantsDetailsForItemPage, setItemsDetails } = itemsImageSlice.actions;
+export const { setItemsImage, setTopRestaurants, setAllRestaurants, setAllCityBrand, setRestaurantsDetailsForItemPage, setItemsDetails, setCartItems, removeFromCart, clearCart } = itemsImageSlice.actions;
 export default itemsImageSlice.reducer;

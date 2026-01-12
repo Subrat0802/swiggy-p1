@@ -14,3 +14,8 @@ export const resEndpoint = {
     restaurantsfetchRestaurantItems: BASE_URL + "/api/v1/allRestaurants/restaurantsfetchRestaurantItems"
 } 
 
+export const cartEndpoint = {
+    addToCart: BASE_URL + "/api/v1/cart/addToCart",
+    getAllCartItems: BASE_URL + "/api/v1/cart/getAllCartItems",
+} 
+

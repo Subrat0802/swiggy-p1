@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { restaurantsItems } from "../services/operations.ts/reastaurantApi";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../main";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
+  setCartItems,
   setItemsDetails,
   setRestaurantsDetailsForItemPage,
 } from "../redux/slices/restaurants";
@@ -11,12 +12,17 @@ import { StarIcon } from "../../src/assets/starSvg";
 import { ChevronDown, Tag } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { IMAGE_CDN } from "../utils";
+import { cart, getCartItems } from "../services/operations.ts/cart";
+
 
 const ItemsList = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const location = useSelector(
     (state: RootState) => state.locationState.location
+  );
+  const cartItems = useSelector(
+    (state: RootState) => state.restaurantsDetails.cartItems
   );
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
@@ -67,6 +73,17 @@ const ItemsList = () => {
         }));
       console.log("ITEMS,", items);
       dispatch(setItemsDetails(items));
+
+      const response = await getCartItems();
+        console.log("res", response);
+      response.data.map((el) => {
+        dispatch(setCartItems({
+          id:el.itemId,
+          image: el.imageId ?? "",
+          name: el.name,
+          price: el.defaultPrice ?? el.price ?? 0,}))
+      })
+      
     };
 
     fetchItems();
@@ -86,17 +103,43 @@ const ItemsList = () => {
     setOpenIndex((prev) => (prev === index ? null : index));
   };
 
+
+  const handleAddToCart = async (item: any) => {
+    const { id, imageId, name, defaultPrice, price } = item;
+    console.log(id, imageId, name, defaultPrice, price);
+    
+
+    const response = await cart({itemId:id, image:imageId, name, price:defaultPrice});
+    console.log("add to cart repsone ", response);
+  };
+
+
   if (resDet == null) {
     return;
   }
 
+
   return (
-    <div className="w-full min-h-screen flex justify-center  pt-20">
+    <div className="w-full min-h-screen flex justify-center relative pt-20">
+      <div
+        className={`fixed bottom-0 z-30 w-full max-w-4xl
+          flex justify-between items-center
+          bg-green-800 text-white/90 font-semibold text-md
+          px-4 py-3
+          transform transition-transform duration-500 ease-in-out
+          ${cartItems.length > 0 ? "translate-y-0" : "translate-y-full"}
+        `}
+      >
+        <p>{cartItems.length} Items added</p>
+        <Link to="/cart"><p className="cursor-pointer underline">View Cart</p></Link>
+      </div>
+
       <div className="max-w-4xl w-full p-10">
         {!loading && resDet === null ? (
           <p>Loading...</p>
         ) : (
           <div className="flex flex-col gap-4">
+            
             <div className="py-7 mb-6 flex gap-3 justify-start text-xs">
               <p>Home /</p>
               <p>category /</p>
@@ -147,7 +190,7 @@ const ItemsList = () => {
 
             <div className="rounded-xl flex flex-col gap-2 mt-6">
               {allItems?.map((el, i) => (
-                <div className="bg-gray-100 rounded-xl" key={i}>
+                <div className="bg-gray-100/50 rounded-xl" key={i}>
                   <div
                     className="flex justify-between items-center px-3 py-4 cursor-pointer"
                     onClick={() => handleTitleClick(i)}
@@ -192,14 +235,23 @@ const ItemsList = () => {
                                   {el.card.info.name} 
                                 </p>
                                 <div className="flex gap-2 items-center">
-                                  <p className="font-semibold text-gray-500/70 text-lg py-2 line-through">₹{el.card.info.defaultPrice / 100} </p>
-                                  <p className="font-semibold text-black/60 text-lg py-2 ">₹{el.card.info.defaultPrice / 100 + 60} </p>
+                                  <p className="font-semibold text-gray-500/70 text-lg py-2 line-through">₹{el.card.info.defaultPrice ? el.card.info.defaultPrice/100 : el.card.info.price/100} </p>
+                                  <p className="font-semibold text-black/60 text-lg py-2 ">₹{el.card.info.defaultPrice ? el.card.info.defaultPrice / 100 - 60 : el.card.info.price / 100 - 60} </p>
                                   <Tag className="text-green-900 bg-clip-text " width={15}/>
                                 </div>
+                                <div className="flex items-center gap-2 mb-3">
+                                  <StarIcon size={18} color="white" />
+                                  <p>{el.card.info.ratings.aggregatedRating.rating}</p> 
+                                  <p>({el.card.info.ratings.aggregatedRating.ratingCountV2})</p>
                                 </div>
-                                <div className=" w-[30%] relative">
+                                <div>
+                                  <p className="p-1 px-2 border rounded-full w-fit text-sm border-gray-400 cursor-pointer text-gray-500">Details</p>
+                                </div>
+                                </div>
+                                <div className=" w-[30%] relative h-fit">
                                   <div className="flex justify-center items-center absolute -bottom-6 p-2 bg-transaprent w-full mx-auto">
-                                    <div className="bg-white border border-green-800 px-9 rounded-xl py-2 cursor-pointer">Add</div>
+                                    <div onClick={() => handleAddToCart(el.card.info)}
+                                    className="bg-white font-semibold border border-green-800 px-9 rounded-xl py-2 cursor-pointer">Add</div>
                                   </div>
                                   <img className="rounded-xl" src={`${IMAGE_CDN}${el.card.info.imageId}`}/>
                                 </div>
