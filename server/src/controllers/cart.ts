@@ -6,7 +6,6 @@ import { success } from "zod";
 export const addtoCart = async (req: Request, res: Response) => {
     try{
         const {itemId, image, name, price} = req.body; 
-        console.log(itemId, image, name, price);
         //@ts-ignore
         const {id} = req.user
         if(!image || !name || !itemId || !price){
@@ -71,6 +70,68 @@ export const getAllCartItems = async (req: Request, res: Response) => {
     }catch(error){
         return res.status(500).json({
                 message:"server error while fetching cart items",
+                success:false
+            })
+    }
+}
+
+export const removeItem = async (req: Request, res: Response) => {
+    try{
+        // @ts-ignore
+        const { id: userId } = req.user;
+        const itemId = req.query.itemId as string;
+
+        const deletedItem = await Cart.findOneAndDelete({
+        itemId: itemId,
+        userId: userId,
+        });
+
+        if (!deletedItem) {
+        return res.status(404).json({
+            success: false,
+            message: "Cart item not found",
+        });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Item removed from cart",
+        });
+
+    }catch(error){
+        return res.status(500).json({
+                message:"server error while removing cart items",
+                success:false
+            })
+    }
+}
+
+
+
+export const removeAllItem = async (req: Request, res: Response) => {
+    try{
+        // @ts-ignore
+        const { id: userId } = req.user;
+
+        const deletedAllItem = await Cart.deleteMany({
+        userId: userId,
+        });
+
+        if (!deletedAllItem) {
+        return res.status(404).json({
+            success: false,
+            message: "Cart items not found",
+        });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Item removed from cart",
+        });
+
+    }catch(error){
+        return res.status(500).json({
+                message:"server error while removing all cart items",
                 success:false
             })
     }

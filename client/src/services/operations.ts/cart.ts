@@ -2,7 +2,7 @@ import { toast } from "sonner";
 import { cartEndpoint } from "../api";
 import { apiConnector } from "../apiConnector";
 
-const { addToCart, getAllCartItems } = cartEndpoint;
+const { addToCart, getAllCartItems, removeAllItems, removeItem } = cartEndpoint;
 
 interface CartInfo {
   itemId: string;
@@ -65,3 +65,24 @@ export const getCartItems = async () => {
   }
 };
 
+
+
+export const removeItems = async ({ itemId }: { itemId: string }) => {
+  try{
+    const response = await apiConnector("POST", removeItem, null, {}, {itemId});
+    console.log("remove item response",response);
+    return response;
+  }catch(error){
+    console.log("Remove item error", error)
+  }
+}
+
+export const removeAllItem = async () => {
+  try{
+    const response = await apiConnector("POST", removeAllItems);
+    console.log("remove all item response",response);
+    return response;
+  }catch(error){
+    console.log("Remove all item error", error)
+  }
+}

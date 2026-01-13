@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../main";
 import { Link, useParams } from "react-router-dom";
 import {
+  clearCart,
   setCartItems,
   setItemsDetails,
   setRestaurantsDetailsForItemPage,
@@ -75,7 +76,7 @@ const ItemsList = () => {
       dispatch(setItemsDetails(items));
 
       const response = await getCartItems();
-        console.log("res", response);
+      dispatch(clearCart());
       response.data.map((el) => {
         dispatch(setCartItems({
           id:el.itemId,
@@ -106,11 +107,16 @@ const ItemsList = () => {
 
   const handleAddToCart = async (item: any) => {
     const { id, imageId, name, defaultPrice, price } = item;
-    console.log(id, imageId, name, defaultPrice, price);
-    
-
-    const response = await cart({itemId:id, image:imageId, name, price:defaultPrice});
-    console.log("add to cart repsone ", response);
+    const res = await cart({itemId:id, image:imageId, name, price:defaultPrice ?? price});
+    if(!res){
+      return;
+    }
+    dispatch(setCartItems({
+      id,
+      image: imageId ?? "",
+      name,
+      price: defaultPrice ?? price ?? 0,
+    }));
   };
 
 

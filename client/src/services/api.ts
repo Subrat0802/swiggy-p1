@@ -16,6 +16,8 @@ export const resEndpoint = {
 
 export const cartEndpoint = {
     addToCart: BASE_URL + "/api/v1/cart/addToCart",
-    getAllCartItems: BASE_URL + "/api/v1/cart/getAllCartItems",
+    getAllCartItems: BASE_URL + "/api/v1/cart/getAllCartItems", 
+    removeItem: BASE_URL + "/api/v1/cart/removeItem", 
+    removeAllItems: BASE_URL + "/api/v1/cart/removeAllItems", 
 } 
 
