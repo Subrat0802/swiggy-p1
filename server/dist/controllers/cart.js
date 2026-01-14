@@ -3,7 +3,6 @@ import { success } from "zod";
 export const addtoCart = async (req, res) => {
     try {
         const { itemId, image, name, price } = req.body;
-        console.log(itemId, image, name, price);
         //@ts-ignore
         const { id } = req.user;
         if (!image || !name || !itemId || !price) {

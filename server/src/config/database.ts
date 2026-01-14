@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const DB = process.env.DATABASE_URL;
+const DB = process.env.DATABASE_URL_NEW;
 
 if (!DB) {
   throw new Error("DATABASE_URL is not defined in environment variables");
@@ -14,7 +14,8 @@ export const dbConnect = async (): Promise<void> => {
         await mongoose.connect(DB);
         console.log("DB connected successfully");
     }catch(error){
-        console.log("Error while connecting to database");
+        console.error("❌ MongoDB connection error:");
+        console.error(error);
         process.exit(1);
     }
 }
