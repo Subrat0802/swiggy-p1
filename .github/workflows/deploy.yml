@@ -1,0 +1,47 @@
+name: Deploy MERN App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to server
+        run: |
+          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
+            cd ~/swiggy-p1
+
+            echo "Pulling latest code..."
+            git pull origin main
+
+            echo "Building backend..."
+            cd server
+            npm install
+            npm run build
+            pm2 restart swiggy-backend || pm2 start dist/index.js --name swiggy-backend
+
+            echo "Building frontend..."
+            cd ../client
+            npm install
+            npm run build
+
+            sudo rm -rf /var/www/html/*
+            sudo cp -r dist/* /var/www/html/
+            sudo systemctl reload nginx
+
+            echo "Deployment completed"
+          EOF
