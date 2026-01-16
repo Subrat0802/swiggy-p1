@@ -2,6 +2,7 @@ import { useSelector } from "react-redux"
 import type { RootState } from "../../main"
 import RestaurantCard from "./RestaurantCard";
 import TopRestaurantsSkeleton from "../loadingSkeleton/TopRestaurantsSkeleton";
+import { Link } from "react-router-dom";
 
 const AllRestaurants = () => {
     const allRestaurants = useSelector((state: RootState) => state.restaurantsDetails.allRestaurants);
@@ -15,7 +16,7 @@ const AllRestaurants = () => {
             {
                 allRestaurants == null ? (<TopRestaurantsSkeleton />) : (
                     allRestaurants.map((el) => (
-                        <RestaurantCard  key={el.info.id} el={el} style={"min-w-70"}/>
+                        <Link to={`/items/${el.info.id}`}><RestaurantCard  key={el.info.id} el={el} style={"min-w-70"}/></Link>
                     ))
                 )
             }

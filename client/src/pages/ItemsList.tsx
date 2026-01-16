@@ -15,6 +15,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import { IMAGE_CDN } from "../utils";
 import { cart, getCartItems } from "../services/operations.ts/cart";
 
+interface IntemsProps {
+  id: string;
+  name: string;
+  imageId?: string;   // 👈 optional
+  price?: number;
+  defaultPrice?: number;
+  category?: string;
+  ratings?: number;
+}
+
+
 
 const ItemsList = () => {
   const dispatch = useDispatch();
@@ -66,9 +77,9 @@ const ItemsList = () => {
       );
       setLoading(false);
       const items = filterResItems
-        .map((el) => el?.card?.card)
-        .filter((el) => el.title && Array.isArray(el.itemCards))
-        .map((el) => ({
+        .map((el: { card: { card: never; }; }) => el?.card?.card)
+        .filter((el: { title: string; itemCards: []; }) => el.title && Array.isArray(el.itemCards))
+        .map((el: { title: string; itemCards: []; }) => ({
           title: el.title,
           itemsCard: el.itemCards,
         }));
@@ -77,7 +88,7 @@ const ItemsList = () => {
 
       const response = await getCartItems();
       dispatch(clearCart());
-      response.data.map((el) => {
+      response.data.map((el: { itemId: string; imageId: string; name: string; defaultPrice: number; price: number; }) => {
         dispatch(setCartItems({
           id:el.itemId,
           image: el.imageId ?? "",
@@ -105,7 +116,7 @@ const ItemsList = () => {
   };
 
 
-  const handleAddToCart = async (item: any) => {
+  const handleAddToCart = async (item: IntemsProps) => {
     const { id, imageId, name, defaultPrice, price } = item;
     const res = await cart({itemId:id, image:imageId, name, price:defaultPrice ?? price});
     if(!res){
@@ -241,8 +252,14 @@ const ItemsList = () => {
                                   {el.card.info.name} 
                                 </p>
                                 <div className="flex gap-2 items-center">
-                                  <p className="font-semibold text-gray-500/70 text-lg py-2 line-through">₹{el.card.info.defaultPrice ? el.card.info.defaultPrice/100 : el.card.info.price/100} </p>
-                                  <p className="font-semibold text-black/60 text-lg py-2 ">₹{el.card.info.defaultPrice ? el.card.info.defaultPrice / 100 - 60 : el.card.info.price / 100 - 60} </p>
+                                  <p className="font-semibold text-gray-500/70 text-lg py-2 line-through">
+                                    ₹{((el.card.info.defaultPrice ?? el.card.info.price ?? 0) / 100)}
+                                  </p>
+
+                                  <p className="font-semibold text-black/60 text-lg py-2">
+                                    ₹{((el.card.info.defaultPrice ?? el.card.info.price ?? 0) / 100) - 60}
+                                  </p>
+
                                   <Tag className="text-green-900 bg-clip-text " width={15}/>
                                 </div>
                                 <div className="flex items-center gap-2 mb-3">
@@ -256,8 +273,23 @@ const ItemsList = () => {
                                 </div>
                                 <div className=" w-[30%] relative h-fit">
                                   <div className="flex justify-center items-center absolute -bottom-6 p-2 bg-transaprent w-full mx-auto">
-                                    <div onClick={() => handleAddToCart(el.card.info)}
-                                    className="bg-white font-semibold border border-green-800 px-9 rounded-xl py-2 cursor-pointer">Add</div>
+                                    <div
+                                      onClick={() =>
+                                        handleAddToCart({
+                                          id: el.card.info.id,
+                                          name: el.card.info.name,
+                                          imageId: el.card.info.imageId,
+                                          price: el.card.info.price,
+                                          defaultPrice: el.card.info.defaultPrice,
+                                          category: el.card.info.category,
+
+                                        })
+                                      }
+                                      className="bg-white font-semibold border border-green-800 px-9 rounded-xl py-2 cursor-pointer"
+                                    >
+                                      Add
+                                    </div>
+
                                   </div>
                                   <img className="rounded-xl" src={`${IMAGE_CDN}${el.card.info.imageId}`}/>
                                 </div>

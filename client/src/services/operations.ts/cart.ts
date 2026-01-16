@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { toast } from "sonner";
 import { cartEndpoint } from "../api";
 import { apiConnector } from "../apiConnector";
@@ -6,9 +7,9 @@ const { addToCart, getAllCartItems, removeAllItems, removeItem } = cartEndpoint;
 
 interface CartInfo {
   itemId: string;
-  image: string;
+  image?: string;
   name: string;
-  price: number;
+  price?: number;
 }
 
 export const cart = async ({ itemId, image, name, price }: CartInfo) => {
@@ -20,11 +21,11 @@ export const cart = async ({ itemId, image, name, price }: CartInfo) => {
     );
 
     if (!response?.data?.success) {
-      toast.error(response?.data?.message || "Failed to add item to cart");
+      toast.error(response?.data?.message || "Failed to add item to cart", {position: "top-center"});
       return null;
     }
 
-    toast.success("Item added to cart");
+    toast.success("Item added to cart", {position: "top-center"} );
     return response.data;
   } catch (error: any) {
     console.error("ADD TO CART ERROR:", error);
@@ -34,7 +35,7 @@ export const cart = async ({ itemId, image, name, price }: CartInfo) => {
       error?.message ||
       "Something went wrong";
 
-    toast.error(message);
+    toast.error(message, {position: "top-center"});
     return null;
   }
 };

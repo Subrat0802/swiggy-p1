@@ -21,7 +21,13 @@ interface TopRestaurants {
     info: RestaurantsInfo
 }
 
+
+interface slaString {
+  slaString: string
+}
+
 interface ResDetailsItemPage {
+    sla: slaString;
     id: string,
     name: string,
     cloudinaryImageId: string,
@@ -38,14 +44,33 @@ interface AllCityBrands {
   link: string
 }
 
+interface intemAttribute {
+  vegClassifier: string
+}
+
+interface ratingCountV2 {
+  ratingCountV2: string,
+  rating: string
+}
+
+interface aggregatedRating {
+  aggregatedRating: ratingCountV2
+}
+
 interface DishCard {
   card: {
     info: {
+      ratings: aggregatedRating;
+     
+      defaultPrice: number;
+      vegClassifier: string
+      itemAttribute: intemAttribute;
       id: string;
       name: string;
       category?: string;
       imageId?: string;
       price?: number;
+      card: never
     };
   };
 }

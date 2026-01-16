@@ -56,17 +56,17 @@ const Header = () => {
         <div className="justify-between items-center gap-7 text-lg flex">
           <ul className="flex gap-7 ">
             <Link to={"/"}>
-              <li className="cursor-pointer hover:text-white/70 transition-all duration-200 hidden md:block">
+              <li className="cursor-pointer hover:text-black/70 transition-all duration-200 hidden md:block">
                 Home
               </li>
             </Link>
-            <li className="cursor-pointer hover:text-white/70 transition-all duration-200 hidden md:block">
+            <li className="cursor-pointer hover:text-black/70 transition-all duration-200 hidden md:block">
               Search
             </li>
-            <li className="cursor-pointer hover:text-white/70 transition-all duration-200 hidden md:block">
+            <li className="cursor-pointer hover:text-black/70 transition-all duration-200 hidden md:block">
               Grocery
             </li>
-            <li className="cursor-pointer hover:text-white/70 transition-all duration-200 hidden md:block">
+            <li className="cursor-pointer hover:text-black/70 transition-all duration-200 hidden md:block">
               Contact
             </li>
             <li className="cursor-pointer hover:text-white/70 transition-all duration-200 hidden md:block">
