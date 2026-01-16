@@ -18,7 +18,7 @@ import { cart, getCartItems } from "../services/operations.ts/cart";
 interface IntemsProps {
   id: string;
   name: string;
-  imageId?: string;   // 👈 optional
+  imageId?: string; 
   price?: number;
   defaultPrice?: number;
   category?: string;
