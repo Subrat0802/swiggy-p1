@@ -162,18 +162,18 @@ const ItemsList = () => {
               <p>category /</p>
               <p>items </p>
             </div>
-            <p className="text-3xl font-bold text-black/80 ">{resDet?.name}</p>
+            <p className="text-xl md:text-3xl font-bold text-black/80 ">{resDet?.name}</p>
             <div className="w-ful p-5 border border-gray-200/70 shadow-xl rounded-xl relative">
               {/* <img
                       className=" min-w-full max-h-50 object-cover rounded-xl"
                       src={`${IMAGE_CDN + resDet.cloudinaryImageId}`}
                     /> */}
               <div className="p-2 px-4 flex flex-col gap-3">
-                <div className="flex items-center gap-3 text-lg font-semibold  text-black/70">
+                <div className="flex items-center gap-3 text-sm md:text-lg font-semibold  text-black/70">
                   <div className="flex justify-between items-center  gap-1">
                     <StarIcon size={20} color="white" />
                     <p>{resDet.avgRating}</p>
-                    <p>({resDet.totalRatingsString})</p>
+                    <p className="">({resDet.totalRatingsString})</p>
                   </div>
                   <p className="text-2xl">·</p>
                   <p>{resDet.costForTwoMessage}</p>
